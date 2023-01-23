@@ -1,10 +1,10 @@
 package utils
 
-const PASSWORD = "mEHsQptOAOSyEtyaqzW8"
+const PASSWORD = "vostok12"
 
 // const PASSWORD = "tCC-UQV-ppv-xk6"
 // const FROM = "noreplyadv@yandex.ru"
-const FROM = "fedorkonyukhov@mail.ru"
+const FROM = "vladimir@advocate-etalon.ru"
 const TO = "kvr165@mail.ru"
 
 //"FROM_EMAIL=fedorkonyukhov@mail.ru",
