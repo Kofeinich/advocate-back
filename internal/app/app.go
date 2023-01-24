@@ -1,9 +1,11 @@
 package app
 
 import (
-	"advocate-back/pkg/email"
+	server "advocate-back/internal/delivery/http"
 )
 
 func Run() {
-	email.SendMessage()
+	httpServer := server.NewServer()
+	httpServer.Start()
+	//email.SendMessage()
 }
