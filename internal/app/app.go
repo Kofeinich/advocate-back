@@ -5,6 +5,8 @@ import (
 )
 
 func Run() {
+	//myMap := make(map[string]string)
+	//mes := make([]map[string]string, 0, 5)
 	httpServer := server.NewServer()
 	httpServer.Start()
 	//email.SendMessage()

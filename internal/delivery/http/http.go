@@ -22,17 +22,20 @@ func NewServer() *server {
 	e.Validator = &validate.CustomValidator{Validator: validator.New()}
 	return &server{e: e}
 }
+
+func saveMessage(c echo.Context) (err error) {
+	m := new(validate.MailFromHTTP)
+	if err = c.Bind(m); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	if err = c.Validate(m); err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, m)
+}
+
 func (s *server) Start() error {
-	s.e.POST("/send_message", func(c echo.Context) (err error) {
-		m := new(validate.MailFromHTTP)
-		if err = c.Bind(m); err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
-		}
-		if err = c.Validate(m); err != nil {
-			return err
-		}
-		return c.JSON(http.StatusOK, m)
-	})
-	s.e.Logger.Fatal(s.e.Start(":8080"))
+	s.e.POST("/send_message", saveMessage)
+	s.e.Logger.Fatal(s.e.Start(":1323"))
 	return nil
 }
