@@ -1,2 +1,4 @@
 pkg/utils
-redis.yml
+internal/repository/redis/docker-compose-only-redis.yml
+configs/docker-compose-main.yml
+Makefile

@@ -1,8 +1,0 @@
-http:
-  port: 8000
-  readTimeout: 10s
-  writeTimeout: 10s
-  maxHeaderBytes: 1
-cache:
-  ttl: 3600s
-

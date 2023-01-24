@@ -14,6 +14,7 @@ func StartRedis() {
 	var ctx = context.Background()
 	err := rdb.Set(ctx, "message", "ex", 0).Err()
 	rdb.Set(ctx, "zalupa", "wedw", 90000)
+	rdb.Set(ctx, "zalupa", "wedw", 90000)
 	if err != nil {
 		panic(err)
 	}

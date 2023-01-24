@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  cache:
+    image: "redis:alpine"
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1
+    volumes:
+      - cache:/data
+  api:
+    container_name: advocate-back
+    build:
+      context: ./
+      target: production
+    image: advocate-back
+    depends_on:
+      - cache
+    ports:
+      - 8000:8000
+    environment:
+      NODE_ENV: production
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+#      REDIS_PASSWORD: some_pass
+    links:
+      - cache
+    volumes:
+      - ./:/src
+volumes:
+  cache:
+    driver: local
