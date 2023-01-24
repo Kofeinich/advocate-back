@@ -12,9 +12,7 @@ func StartRedis() {
 		DB:       0,  // use default DB
 	})
 	var ctx = context.Background()
-	err := rdb.Set(ctx, "message", "ex", 0).Err()
-	rdb.Set(ctx, "zalupa", "wedw", 90000)
-	rdb.Set(ctx, "zalupa", "wedw", 90000)
+	err := rdb.Set(ctx, "key", "value", 0).Err()
 	if err != nil {
 		panic(err)
 	}

@@ -6,8 +6,8 @@ import (
 )
 
 func Run() {
+	redis.StartRedis()
 	httpServer := server.NewServer()
 	httpServer.Start()
-	redis.StartRedis()
 	//email.SendMessage()
 }
