@@ -10,8 +10,11 @@ import (
 )
 
 type jwtCustomClaims struct {
-	Name  string `json:"name"`
-	Admin bool   `json:"admin"`
+	jwt.RegisteredClaims
+}
+
+type refreshJwtCustomClaims struct {
+	AccessToken string `json:"access_token"`
 	jwt.RegisteredClaims
 }
 
@@ -27,12 +30,14 @@ func Login(c echo.Context) error {
 	if m.Username != config.AppConfig.Auth.Username || m.Password != config.AppConfig.Auth.Password {
 		return echo.ErrUnauthorized
 	}
+	return generateToken(c)
+}
+
+func generateToken(c echo.Context) error {
 
 	claims := &jwtCustomClaims{
-		"Vladimir",
-		true,
 		jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 72)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
 		},
 	}
 
@@ -44,8 +49,49 @@ func Login(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+	refreshClaims := &refreshJwtCustomClaims{
+		t,
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
+		},
+	}
+
+	// Create token with claims
+	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims)
+
+	// Generate encoded token and send it as response.
+	rt, err := refreshToken.SignedString([]byte(config.AppConfig.Auth.Secret))
+	if err != nil {
+		return err
+	}
 
 	return c.JSON(http.StatusOK, echo.Map{
-		"token": t,
+		"access_token":  t,
+		"refresh_token": rt,
 	})
+}
+
+func Refresh(c echo.Context) error {
+	m := new(validate.RefreshRequest)
+	if err := c.Bind(m); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	if err := c.Validate(m); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	var claims refreshJwtCustomClaims
+	token, err := jwt.ParseWithClaims(m.RefreshToken, &claims, func(token *jwt.Token) (interface{}, error) {
+		return []byte(config.AppConfig.Auth.Secret), nil
+	})
+	if err != nil {
+		return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
+	}
+	if !token.Valid {
+		return echo.NewHTTPError(http.StatusUnauthorized, err.Error())
+	}
+
+	if claims.AccessToken != m.AccessToken {
+		return echo.NewHTTPError(http.StatusUnauthorized)
+	}
+	return generateToken(c)
 }

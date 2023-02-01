@@ -19,6 +19,11 @@ type (
 		Password string `json:"password" validate:"required"`
 	}
 
+	RefreshRequest struct {
+		AccessToken  string `json:"access_token" validate:"required"`
+		RefreshToken string `json:"refresh_token" validate:"required"`
+	}
+
 	CustomValidator struct {
 		Validator *validator.Validate
 	}

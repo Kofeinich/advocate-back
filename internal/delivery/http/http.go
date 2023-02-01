@@ -3,8 +3,10 @@ package http
 import (
 	"advocate-back/internal/delivery/http/auth"
 	validate "advocate-back/internal/delivery/http/validator"
+	config2 "advocate-back/pkg/config"
 	"advocate-back/pkg/smtp"
 	"github.com/go-playground/validator"
+	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"net/http"
@@ -44,6 +46,12 @@ func (s *Server) saveMessageRequest(c echo.Context) (err error) {
 func (s *Server) Connect() error {
 	s.e.POST("/send_message", s.saveMessageRequest)
 	s.e.POST("/login", auth.Login)
+	s.e.POST("/refresh", auth.Refresh)
+	g := s.e.Group("/restricted")
+	config := echojwt.Config{
+		SigningKey: []byte(config2.AppConfig.Auth.Secret),
+	}
+	g.Use(echojwt.WithConfig(config))
 	s.e.Logger.Fatal(s.e.Start(":1323"))
 	return nil
 }
