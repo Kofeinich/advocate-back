@@ -1,6 +1,8 @@
 package auth
 
 import (
+	validate "advocate-back/internal/delivery/http/validator"
+	"advocate-back/pkg/config"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -14,10 +16,15 @@ type jwtCustomClaims struct {
 }
 
 func Login(c echo.Context) error {
-	username := c.FormValue("username")
-	password := c.FormValue("password")
+	m := new(validate.AuthRequest)
+	if err := c.Bind(m); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	if err := c.Validate(m); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
 
-	if username != "advocate" || password != "TRr3tcukFzjCiEoi" {
+	if m.Username != config.AppConfig.Auth.Username || m.Password != config.AppConfig.Auth.Password {
 		return echo.ErrUnauthorized
 	}
 
@@ -33,7 +40,7 @@ func Login(c echo.Context) error {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Generate encoded token and send it as response.
-	t, err := token.SignedString([]byte("secret"))
+	t, err := token.SignedString([]byte(config.AppConfig.Auth.Secret))
 	if err != nil {
 		return err
 	}

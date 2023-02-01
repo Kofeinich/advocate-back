@@ -27,7 +27,7 @@ func NewServer(smtpServer smtp.Server) *Server {
 }
 
 func (s *Server) saveMessageRequest(c echo.Context) (err error) {
-	m := new(validate.MailFromHTTP)
+	m := new(validate.SendMessageRequest)
 	if err = c.Bind(m); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}

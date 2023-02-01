@@ -1,21 +1,14 @@
 package config
 
 import (
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 	"log"
 	"os"
 )
 
-type Smtp struct {
-	Host     string `yaml:"smtp_host"`
-	Port     int    `yaml:"smtp_port"`
-	Username string `yaml:"smtp_username"`
-	Password string `yaml:"smtp_password"`
-	From     string `yaml:"smtp_from"`
-	To       string `yaml:"smtp_to"`
-}
 type Config struct {
 	Smtp Smtp `yaml:"smtp_credentials"`
+	Auth Auth `yaml:"auth_credentials"`
 }
 
 func ReadConfig() Config {
