@@ -3,11 +3,12 @@ package app
 import (
 	server "advocate-back/internal/delivery/http"
 	"advocate-back/internal/repository/redis"
+	"advocate-back/pkg/smtp"
 )
 
 func Run() {
 	redis.StartRedis()
-	httpServer := server.NewServer()
-	httpServer.Start()
-	//email.SendMessage()
+	smtpServer := smtp.NewServer()
+	httpServer := server.NewServer(smtpServer)
+	httpServer.Connect()
 }

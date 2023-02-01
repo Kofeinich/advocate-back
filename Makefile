@@ -5,4 +5,4 @@ run-redis:
 	docker-compose -f "internal/repository/redis/docker-compose-only-redis.yml" up
 
 run:
-	go run "cmd/app/main.go"
+	go run "//app/main.go"
