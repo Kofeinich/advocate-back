@@ -15,11 +15,10 @@ func Run() {
 	if err != nil {
 		log.Fatal("Postgres dont working", err)
 	}
-	postsRepository, err := posts.NewPostsRepository(postgres)
+	_, err = posts.NewPostsRepository(postgres)
 	if err != nil {
 		log.Fatal("repository not initialized", err)
 	}
-
 	smtpServer := smtp.NewServer()
 	httpServer := server.NewServer(smtpServer)
 	httpServer.Connect()

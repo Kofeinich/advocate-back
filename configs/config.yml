@@ -9,3 +9,9 @@ auth_credentials:
   username: ''
   password: ''
   jwt_secret: ''
+postgres_config:
+  username: ''
+  password: ''
+  db: ""
+  port: 5432
+  host: ""

@@ -1,5 +1,14 @@
 version: '3.8'
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_DB: advocate
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - 5432:5432
   cache:
     image: "redis:alpine"
     restart: always
@@ -18,11 +27,6 @@ services:
       - cache
     ports:
       - 8000:8000
-    environment:
-      NODE_ENV: production
-      REDIS_HOST: cache
-      REDIS_PORT: 6379
-#      REDIS_PASSWORD: some_pass
     links:
       - cache
     volumes:

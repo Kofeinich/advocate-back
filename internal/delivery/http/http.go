@@ -3,6 +3,7 @@ package http
 import (
 	"advocate-back/internal/delivery/http/auth"
 	validate "advocate-back/internal/delivery/http/validator"
+	"advocate-back/internal/posts"
 	config2 "advocate-back/pkg/config"
 	"advocate-back/pkg/smtp"
 	"github.com/go-playground/validator"
@@ -44,9 +45,11 @@ func (s *Server) saveMessageRequest(c echo.Context) (err error) {
 }
 
 func (s *Server) Connect() error {
+	s.e.Use(middleware.CORS())
 	s.e.POST("/send_message", s.saveMessageRequest)
 	s.e.POST("/login", auth.Login)
 	s.e.POST("/refresh", auth.Refresh)
+	s.e.GET("/posts", posts.GetPosts)
 	g := s.e.Group("/restricted")
 	config := echojwt.Config{
 		SigningKey: []byte(config2.AppConfig.Auth.Secret),
