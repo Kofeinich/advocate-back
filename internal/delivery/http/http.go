@@ -3,9 +3,7 @@ package http
 import (
 	"advocate-back/internal/delivery/http/auth"
 	validate "advocate-back/internal/delivery/http/validator"
-	"advocate-back/internal/posts"
 	config2 "advocate-back/pkg/config"
-	"advocate-back/pkg/smtp"
 	"github.com/go-playground/validator"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
@@ -14,19 +12,18 @@ import (
 )
 
 type Server struct {
-	e          *echo.Echo
-	smtpServer smtp.Server
+	e *echo.Echo
 }
 
 func (s *Server) E() *echo.Echo {
 	return s.e
 }
 
-func NewServer(smtpServer smtp.Server) *Server {
+func NewServer() *Server {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Validator = &validate.CustomValidator{Validator: validator.New()}
-	return &Server{e: e, smtpServer: smtpServer}
+	return &Server{e: e}
 }
 
 func (s *Server) saveMessageRequest(c echo.Context) (err error) {
@@ -37,7 +34,6 @@ func (s *Server) saveMessageRequest(c echo.Context) (err error) {
 	if err = c.Validate(m); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	err = s.smtpServer.SendMessage(m.Message, m.Email, m.Name, m.Phone)
 	if err != nil {
 		return err
 	}
@@ -49,7 +45,6 @@ func (s *Server) Connect() error {
 	s.e.POST("/send_message", s.saveMessageRequest)
 	s.e.POST("/login", auth.Login)
 	s.e.POST("/refresh", auth.Refresh)
-	s.e.GET("/posts", posts.GetPosts)
 	g := s.e.Group("/restricted")
 	config := echojwt.Config{
 		SigningKey: []byte(config2.AppConfig.Auth.Secret),

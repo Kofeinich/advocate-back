@@ -7,7 +7,6 @@ import (
 )
 
 type Config struct {
-	Smtp     Smtp     `yaml:"smtp_credentials"`
 	Auth     Auth     `yaml:"auth_credentials"`
 	Postgres Postgres `yaml:"postgres_config"`
 }
