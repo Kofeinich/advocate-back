@@ -1,4 +1,4 @@
-package algorithm
+package bot
 
 import (
 	"advocate-back/internal/states"
@@ -14,18 +14,6 @@ var MockBotStates = states.BotStates{
 				{
 					Text:      "Отправить сообщение",
 					NextBlock: "message_input",
-				},
-				{
-					Text:      "Посмотреть статус заказа",
-					NextBlock: "order_status",
-				},
-				{
-					Text:      "Получить скидку",
-					NextBlock: "discount",
-				},
-				{
-					Text:      "Обратиться в поддержку",
-					NextBlock: "support",
 				},
 			},
 			Alert: "Зачем тебе бот, если ты не знаешь, что делать?",
