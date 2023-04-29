@@ -3,7 +3,7 @@ package http
 import (
 	"advocate-back/internal/delivery/http/auth"
 	validate "advocate-back/internal/delivery/http/validator"
-	config2 "advocate-back/pkg/config"
+	config2 "advocate-back/pkg"
 	"github.com/go-playground/validator"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"

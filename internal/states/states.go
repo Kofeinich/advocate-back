@@ -22,5 +22,5 @@ type BotStates struct {
 type Bot struct {
 	Title     string
 	Id        uuid.UUID
-	BotStates BotStates
+	BotStates *BotStates
 }

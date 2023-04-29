@@ -1,14 +1,5 @@
 version: '3.8'
 services:
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_DB: advocate
-      POSTGRES_PASSWORD: admin123
-    ports:
-      - 5432:5432
   cache:
     image: "redis:alpine"
     restart: always
@@ -18,11 +9,11 @@ services:
     volumes:
       - cache:/data
   api:
-    container_name: advocate-back
+    container_name: bot-forge-back
     build:
       context: ./
       target: production
-    image: advocate-back
+    image: bot-forge-back
     depends_on:
       - cache
     ports:

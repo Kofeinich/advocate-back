@@ -35,5 +35,5 @@ var MockBotStates = states.BotStates{
 var MockBot = states.Bot{
 	Title:     "Mock Bot",
 	Id:        uuid.New(),
-	BotStates: MockBotStates,
+	BotStates: &MockBotStates,
 }

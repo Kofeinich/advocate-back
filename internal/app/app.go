@@ -1,12 +1,15 @@
 package app
 
 import (
+	"advocate-back/internal/algorithm"
+	"advocate-back/internal/bot"
 	server "advocate-back/internal/delivery/http"
-	"advocate-back/internal/repository/redis"
+	"advocate-back/pkg/db"
 )
 
 func Run() {
-	redis.StartRedis()
+	db.StartRedis()
 	httpServer := server.NewServer()
 	httpServer.Connect()
+	algorithm.CheckAlgorithm(bot.MockBot.BotStates)
 }

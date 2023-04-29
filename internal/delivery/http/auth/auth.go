@@ -2,7 +2,7 @@ package auth
 
 import (
 	validate "advocate-back/internal/delivery/http/validator"
-	"advocate-back/pkg/config"
+	"advocate-back/pkg"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -27,7 +27,7 @@ func Login(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	if m.Username != config.AppConfig.Auth.Username || m.Password != config.AppConfig.Auth.Password {
+	if m.Username != pkg.AppConfig.Auth.Username || m.Password != pkg.AppConfig.Auth.Password {
 		return echo.ErrUnauthorized
 	}
 	return generateToken(c)
@@ -45,7 +45,7 @@ func generateToken(c echo.Context) error {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	// Generate encoded token and send it as response.
-	t, err := token.SignedString([]byte(config.AppConfig.Auth.Secret))
+	t, err := token.SignedString([]byte(pkg.AppConfig.Auth.Secret))
 	if err != nil {
 		return err
 	}
@@ -60,7 +60,7 @@ func generateToken(c echo.Context) error {
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, refreshClaims)
 
 	// Generate encoded token and send it as response.
-	rt, err := refreshToken.SignedString([]byte(config.AppConfig.Auth.Secret))
+	rt, err := refreshToken.SignedString([]byte(pkg.AppConfig.Auth.Secret))
 	if err != nil {
 		return err
 	}
@@ -81,7 +81,7 @@ func Refresh(c echo.Context) error {
 	}
 	var claims refreshJwtCustomClaims
 	token, err := jwt.ParseWithClaims(m.RefreshToken, &claims, func(token *jwt.Token) (interface{}, error) {
-		return []byte(config.AppConfig.Auth.Secret), nil
+		return []byte(pkg.AppConfig.Auth.Secret), nil
 	})
 	if err != nil {
 		return echo.NewHTTPError(http.StatusUnauthorized, err.Error())

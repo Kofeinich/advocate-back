@@ -1,18 +1,19 @@
-package config
+package pkg
 
 import (
+	"advocate-back/pkg/config"
 	"gopkg.in/yaml.v3"
 	"log"
 	"os"
 )
 
 type Config struct {
-	Auth     Auth     `yaml:"auth_credentials"`
-	Postgres Postgres `yaml:"postgres_config"`
+	Auth config.Auth `yaml:"auth_credentials"`
+	//Postgres Postgres `yaml:"postgres_config"`
 }
 
 func ReadConfig() Config {
-	file, err := os.ReadFile("configs/app-config.yml")
+	file, err := os.ReadFile("configs/main-config.yml")
 	if err != nil {
 		log.Fatalln(err)
 		return Config{}
