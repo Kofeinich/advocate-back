@@ -13,7 +13,7 @@ type Config struct {
 }
 
 func ReadConfig() Config {
-	file, err := os.ReadFile("configs/main-config.yml")
+	file, err := os.ReadFile("configs/config.yml")
 	if err != nil {
 		log.Fatalln(err)
 		return Config{}
