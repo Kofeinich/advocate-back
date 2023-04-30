@@ -7,11 +7,11 @@ import (
 	"advocate-back/internal/delivery/http/bots"
 	"advocate-back/internal/repository/botRepository"
 	"advocate-back/internal/services/botService"
-	"advocate-back/pkg/db"
+	"advocate-back/pkg/rdb"
 )
 
 func Run() {
-	redis := db.StartRedis()
+	redis := rdb.StartRedis()
 	repo := botRepository.NewRepo(redis)
 	service := botService.NewService(repo)
 	handler := bots.NewBotHandler(service)

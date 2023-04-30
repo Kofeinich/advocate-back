@@ -32,7 +32,7 @@ func NewServer(botHandler BotHandler) *Server {
 	e.Use(middleware.Logger())
 	e.Validator = &validate.CustomValidator{Validator: validator.New()}
 
-	return &Server{e: e, r: r, botHandler: botHandler}
+	return &Server{e: e, botHandler: botHandler}
 }
 
 func (s *Server) saveMessageRequest(c echo.Context) (err error) {
