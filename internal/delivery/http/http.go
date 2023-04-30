@@ -5,6 +5,7 @@ import (
 	validate "advocate-back/internal/delivery/http/validator"
 	config2 "advocate-back/pkg"
 	"github.com/go-playground/validator"
+	"github.com/go-redis/redis/v8"
 	echojwt "github.com/labstack/echo-jwt/v4"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -12,18 +13,26 @@ import (
 )
 
 type Server struct {
-	e *echo.Echo
+	e          *echo.Echo
+	r          *redis.Client
+	botHandler BotHandler
 }
 
 func (s *Server) E() *echo.Echo {
 	return s.e
 }
 
-func NewServer() *Server {
+type BotHandler interface {
+	AddBot(c echo.Context) (err error)
+	GetAllBots(c echo.Context) (err error)
+}
+
+func NewServer(botHandler BotHandler) *Server {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Validator = &validate.CustomValidator{Validator: validator.New()}
-	return &Server{e: e}
+
+	return &Server{e: e, r: r, botHandler: botHandler}
 }
 
 func (s *Server) saveMessageRequest(c echo.Context) (err error) {
@@ -44,6 +53,8 @@ func (s *Server) Connect() error {
 	s.e.Use(middleware.CORS())
 	s.e.POST("/send_message", s.saveMessageRequest)
 	s.e.POST("/login", auth.Login)
+	s.e.POST("/bots/add", s.botHandler.AddBot)
+	s.e.GET("/bots", s.botHandler.GetAllBots)
 	s.e.POST("/refresh", auth.Refresh)
 	g := s.e.Group("/restricted")
 	config := echojwt.Config{

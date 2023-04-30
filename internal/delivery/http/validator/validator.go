@@ -24,6 +24,11 @@ type (
 		RefreshToken string `json:"refresh_token" validate:"required"`
 	}
 
+	AddBotRequest struct {
+		BotConfig string `json:"bot_config" validate:"required" `
+		Token     string `json:"tg_token" validate:"required"`
+	}
+
 	CustomValidator struct {
 		Validator *validator.Validate
 	}
