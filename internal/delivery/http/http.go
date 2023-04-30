@@ -25,13 +25,14 @@ func (s *Server) E() *echo.Echo {
 type BotHandler interface {
 	AddBot(c echo.Context) (err error)
 	GetAllBots(c echo.Context) (err error)
+	DeleteBot(c echo.Context) (err error)
+	UpdateBotConfig(c echo.Context) (err error)
 }
 
 func NewServer(botHandler BotHandler) *Server {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Validator = &validate.CustomValidator{Validator: validator.New()}
-
 	return &Server{e: e, botHandler: botHandler}
 }
 
@@ -55,6 +56,8 @@ func (s *Server) Connect() error {
 	s.e.POST("/login", auth.Login)
 	s.e.POST("/bots/add", s.botHandler.AddBot)
 	s.e.GET("/bots", s.botHandler.GetAllBots)
+	s.e.PATCH("bots/update", s.botHandler.UpdateBotConfig)
+	s.e.DELETE("bots/delete", s.botHandler.DeleteBot)
 	s.e.POST("/refresh", auth.Refresh)
 	g := s.e.Group("/restricted")
 	config := echojwt.Config{

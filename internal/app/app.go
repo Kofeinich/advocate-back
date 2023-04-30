@@ -1,8 +1,6 @@
 package app
 
 import (
-	"advocate-back/internal/algorithm"
-	"advocate-back/internal/bot"
 	"advocate-back/internal/delivery/http"
 	"advocate-back/internal/delivery/http/bots"
 	"advocate-back/internal/repository/botRepository"
@@ -20,5 +18,4 @@ func Run() {
 	if err != nil {
 		return
 	}
-	algorithm.CheckAlgorithm(&bot.MockBot)
 }

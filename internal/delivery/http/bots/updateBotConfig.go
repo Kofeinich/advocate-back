@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func (h BotHandler) AddBot(c echo.Context) (err error) {
-	m := new(validate.AddBotRequest)
+func (h BotHandler) UpdateBotConfig(c echo.Context) (err error) {
+	m := new(validate.UpdateBotConfigRequest)
 	if err = c.Bind(m); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -17,7 +17,7 @@ func (h BotHandler) AddBot(c echo.Context) (err error) {
 	if err != nil {
 		return err
 	}
+	h.s.UpdateBotConfig(m.BotConfig, m.BotID)
 	//algorithm.CheckAlgorithm(&bot.MockBot)
-	h.s.AddBot(m.BotConfig, m.Token)
 	return c.JSON(http.StatusOK, m)
 }

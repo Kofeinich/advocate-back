@@ -5,7 +5,10 @@ import (
 	"net/http"
 )
 
-func (h botHandler) GetAllBots(c echo.Context) (err error) {
-
-	return c.JSON(http.StatusOK, nil)
+func (h BotHandler) GetAllBots(c echo.Context) (err error) {
+	bots, err := h.s.GetAllBots()
+	if err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, bots)
 }

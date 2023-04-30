@@ -39,12 +39,12 @@ func (r repo) DeleteBotFromList(botID string) error {
 	return nil
 }
 
-func (r repo) GelAllBotsFromList() error {
-	err := r.rdb.SMembers(context.Background(), allBotsKey).Err()
+func (r repo) GelAllBotsFromList() ([]string, error) {
+	bots, err := r.rdb.SMembers(context.Background(), allBotsKey).Result()
 	if err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return bots, nil
 }
 
 func (r repo) CreateBotConfig(botID string, config string) error {

@@ -29,6 +29,18 @@ type (
 		Token     string `json:"tg_token" validate:"required"`
 	}
 
+	GetAllBotsRequest struct {
+	}
+
+	DeleteBotRequest struct {
+		BotID string `json:"bot_id" validate:"required" `
+	}
+
+	UpdateBotConfigRequest struct {
+		BotConfig string `json:"bot_config" validate:"required" `
+		BotID     string `json:"bot_id" validate:"required" `
+	}
+
 	CustomValidator struct {
 		Validator *validator.Validate
 	}
