@@ -2,7 +2,6 @@ package bot
 
 import (
 	"advocate-back/internal/states"
-	"github.com/google/uuid"
 )
 
 var MockBotStates = states.BotStates{
@@ -33,7 +32,6 @@ var MockBotStates = states.BotStates{
 }
 
 var MockBot = states.Bot{
-	Title:     "Mock Bot",
-	Id:        uuid.New(),
+	Token:     "ffodkfofk",
 	BotStates: &MockBotStates,
 }

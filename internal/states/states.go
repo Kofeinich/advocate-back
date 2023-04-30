@@ -1,16 +1,21 @@
 package states
 
-import "github.com/google/uuid"
+const (
+	ActionTypeButton ActionType = "button"
+	ActionTypeText   ActionType = "text"
+)
 
-type Button struct {
+type ActionType string
+type Action struct {
 	Text      string
 	NextBlock string
+	Type      ActionType
 }
 
 type State struct {
 	Name    string
 	Text    string
-	Buttons []Button
+	Actions []Action
 	Alert   string
 }
 
@@ -20,7 +25,6 @@ type BotStates struct {
 }
 
 type Bot struct {
-	Title     string
-	Id        uuid.UUID
+	Token     string
 	BotStates *BotStates
 }
