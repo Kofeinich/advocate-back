@@ -40,13 +40,13 @@ var MockBotStates = states.BotStates{
 			Actions: []states.Action{
 				{
 					Text:      "Отправить заново",
-					NextBlock: "message_input",
-					Type:      states.ActionTypeButton,
+					NextBlock: "start_message",
+					Type:      "button",
 				},
 				{
-					Text:      "В главное меню",
+					Text:      "Назад",
 					NextBlock: "start_message",
-					Type:      states.ActionTypeButton,
+					Type:      "button",
 				},
 			},
 		},

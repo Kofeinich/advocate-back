@@ -8,7 +8,7 @@ import (
 
 func TestCheckAlgorithm(t *testing.T) {
 	type args struct {
-		s *states.Bot
+		s states.BotStates
 	}
 	tests := []struct {
 		name    string
@@ -18,7 +18,7 @@ func TestCheckAlgorithm(t *testing.T) {
 		{
 			name: "t1",
 			args: args{
-				s: &states.Bot{BotStates: &bot.MockBotStates},
+				s: bot.MockBotStates,
 			},
 			wantErr: false,
 		},

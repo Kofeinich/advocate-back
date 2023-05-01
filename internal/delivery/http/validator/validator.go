@@ -1,6 +1,7 @@
 package validator
 
 import (
+	"advocate-back/internal/states"
 	"github.com/go-playground/validator"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -25,8 +26,8 @@ type (
 	}
 
 	AddBotRequest struct {
-		BotConfig string `json:"bot_config" validate:"required" `
-		Token     string `json:"tg_token" validate:"required"`
+		BotConfig states.BotStates `json:"bot_config" validate:"required" `
+		Token     string           `json:"tg_token" validate:"required"`
 	}
 
 	GetAllBotsRequest struct {
@@ -37,8 +38,8 @@ type (
 	}
 
 	UpdateBotConfigRequest struct {
-		BotConfig string `json:"bot_config" validate:"required" `
-		BotID     string `json:"bot_id" validate:"required" `
+		BotConfig states.BotStates `json:"bot_config" validate:"required" `
+		BotID     string           `json:"bot_id" validate:"required" `
 	}
 
 	CustomValidator struct {

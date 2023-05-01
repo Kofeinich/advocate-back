@@ -17,24 +17,24 @@ func (a ActionType) IsValid() bool {
 }
 
 type Action struct {
-	Text      string
-	NextBlock string
-	Type      ActionType
+	Text      string     `json:"text"`
+	NextBlock string     `json:"next_block,omitempty"`
+	Type      ActionType `json:"type"`
 }
 
 type State struct {
-	Name    string
-	Text    string
-	Actions []Action
-	Alert   string
+	Name    string   `json:"name"`
+	Text    string   `json:"text"`
+	Actions []Action `json:"actions"`
+	Alert   string   `json:"alert,omitempty"`
 }
 
 type BotStates struct {
-	InitialState string
-	States       map[string]State
+	InitialState string           `json:"initial_state"`
+	States       map[string]State `json:"states"`
 }
 
 type Bot struct {
-	Token     string
-	BotStates *BotStates
+	Token     string     `json:"tg_token"`
+	BotStates *BotStates `json:"bot_config"`
 }

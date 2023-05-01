@@ -47,7 +47,7 @@ func (r repo) GelAllBotsFromList() ([]string, error) {
 	return bots, nil
 }
 
-func (r repo) CreateBotConfig(botID string, config string) error {
+func (r repo) CreateBotConfig(botID string, config []byte) error {
 	err := r.rdb.Set(context.Background(), botConfigKey(botID), config, 0).Err()
 	if err != nil {
 		return err

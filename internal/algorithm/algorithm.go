@@ -8,14 +8,14 @@ import (
 	_ "unicode/utf8"
 )
 
-func CheckAlgorithm(s *states.Bot) error {
-	err := ValidateReferences(s.BotStates)
+func CheckAlgorithm(s states.BotStates) error {
+	err := ValidateReferences(&s)
 	if err != nil {
 		return err
 	}
-	g := dfs.MakeGraphFromConfig(s.BotStates)
+	g := dfs.MakeGraphFromConfig(&s)
 	for _, vertex := range g.Vertices {
-		if vertex.Name == s.BotStates.InitialState {
+		if vertex.Name == s.InitialState {
 			g.Dfs(vertex)
 			break
 		}

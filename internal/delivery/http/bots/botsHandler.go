@@ -1,16 +1,21 @@
 package bots
 
+import (
+	"advocate-back/internal/services/botService"
+	"advocate-back/internal/states"
+)
+
 type BotHandler struct {
 	s service
 }
 
 type service interface {
-	AddBot(conf string, token string) error
+	AddBot(conf states.BotStates, token string) error
 	DeleteBot(id string) error
 	GetAllBots() ([]string, error)
-	UpdateBotConfig(conf string, id string) error
+	UpdateBotConfig(conf states.BotStates, id string) error
 }
 
-func NewBotHandler(s service) *BotHandler {
+func NewBotHandler(s *botService.Service) *BotHandler {
 	return &BotHandler{s: s}
 }
