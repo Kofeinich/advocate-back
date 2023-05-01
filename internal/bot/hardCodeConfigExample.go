@@ -5,14 +5,16 @@ import (
 )
 
 var MockBotStates = states.BotStates{
+	InitialState: "start_message",
 	States: map[string]states.State{
 		"start_message": {
 			Name: "start_message",
 			Text: "Привет! Я твой личный бот-ассистент. Что ты хочешь сделать?",
-			Buttons: []states.Button{
+			Actions: []states.Action{
 				{
 					Text:      "Отправить сообщение",
 					NextBlock: "message_input",
+					Type:      states.ActionTypeButton,
 				},
 			},
 			Alert: "Зачем тебе бот, если ты не знаешь, что делать?",
@@ -20,15 +22,35 @@ var MockBotStates = states.BotStates{
 		"message_input": {
 			Name: "message_input",
 			Text: "Введите ваше сообщение:",
-			Buttons: []states.Button{
+			Actions: []states.Action{
 				{
-					Text:      "Отправить",
-					NextBlock: "send_message",
+					NextBlock: "message_sent",
+					Type:      states.ActionTypeText,
+				},
+				{
+					Text:      "Назад",
+					NextBlock: "start_message",
+					Type:      states.ActionTypeButton,
+				},
+			},
+		},
+		"message_sent": {
+			Name: "message_sent",
+			Text: "Сообщение отправлено",
+			Actions: []states.Action{
+				{
+					Text:      "Отправить заново",
+					NextBlock: "message_input",
+					Type:      states.ActionTypeButton,
+				},
+				{
+					Text:      "В главное меню",
+					NextBlock: "start_message",
+					Type:      states.ActionTypeButton,
 				},
 			},
 		},
 	},
-	CurrentState: "start_message",
 }
 
 var MockBot = states.Bot{

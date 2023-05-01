@@ -6,6 +6,16 @@ const (
 )
 
 type ActionType string
+
+func (a ActionType) IsValid() bool {
+	for _, validType := range []ActionType{ActionTypeText, ActionTypeButton} {
+		if a == validType {
+			return true
+		}
+	}
+	return false
+}
+
 type Action struct {
 	Text      string
 	NextBlock string
@@ -20,8 +30,8 @@ type State struct {
 }
 
 type BotStates struct {
+	InitialState string
 	States       map[string]State
-	CurrentState string
 }
 
 type Bot struct {
