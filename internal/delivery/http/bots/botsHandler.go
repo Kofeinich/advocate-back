@@ -12,7 +12,7 @@ type BotHandler struct {
 type service interface {
 	AddBot(conf states.BotStates, token string) error
 	DeleteBot(id string) error
-	GetAllBots() ([]string, error)
+	GetAllBots() ([]botService.Bot, error)
 	UpdateBotConfig(conf states.BotStates, id string) error
 }
 

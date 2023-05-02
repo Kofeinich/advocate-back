@@ -25,11 +25,11 @@ func (h BotHandler) AddBot(c echo.Context) (err error) {
 
 	var botStates states.BotStates
 	if err := json.Unmarshal(botConfigBytes, &botStates); err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	if err = algorithm.CheckAlgorithm(botStates); err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	if err = h.s.AddBot(m.BotConfig, m.Token); err != nil {

@@ -1,7 +1,10 @@
 package bots
 
 import (
+	"advocate-back/internal/algorithm"
 	validate "advocate-back/internal/delivery/http/validator"
+	"advocate-back/internal/states"
+	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -14,10 +17,22 @@ func (h BotHandler) UpdateBotConfig(c echo.Context) (err error) {
 	if err = c.Validate(m); err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
+	botConfigBytes, err := json.Marshal(m.BotConfig)
 	if err != nil {
-		return err
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
-	h.s.UpdateBotConfig(m.BotConfig, m.BotID)
-	//algorithm.CheckAlgorithm(&bot.MockBot)
+	var botStates states.BotStates
+	if err = json.Unmarshal(botConfigBytes, &botStates); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
+	if err = algorithm.CheckAlgorithm(botStates); err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	err = h.s.UpdateBotConfig(m.BotConfig, m.BotID)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+
 	return c.JSON(http.StatusOK, m)
 }
