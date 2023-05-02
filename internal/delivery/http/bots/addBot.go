@@ -18,6 +18,8 @@ func (h BotHandler) AddBot(c echo.Context) (err error) {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
+	// todo rewrite into service
+
 	botConfigBytes, err := json.Marshal(m.BotConfig)
 	if err != nil {
 		return err

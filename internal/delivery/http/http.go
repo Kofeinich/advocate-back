@@ -16,6 +16,7 @@ type Server struct {
 	e          *echo.Echo
 	r          *redis.Client
 	botHandler BotHandler
+	tgHandler  TgHandler
 }
 
 func (s *Server) E() *echo.Echo {
@@ -29,11 +30,15 @@ type BotHandler interface {
 	UpdateBotConfig(c echo.Context) (err error)
 }
 
-func NewServer(botHandler BotHandler) *Server {
+type TgHandler interface {
+	TgWebhook(c echo.Context) (err error)
+}
+
+func NewServer(botHandler BotHandler, tgHandler TgHandler) *Server {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Validator = &validate.CustomValidator{Validator: validator.New()}
-	return &Server{e: e, botHandler: botHandler}
+	return &Server{e: e, botHandler: botHandler, tgHandler: tgHandler}
 }
 
 func (s *Server) saveMessageRequest(c echo.Context) (err error) {
@@ -59,6 +64,8 @@ func (s *Server) Connect() error {
 	s.e.PATCH("bots/update", s.botHandler.UpdateBotConfig)
 	s.e.DELETE("bots/delete", s.botHandler.DeleteBot)
 	s.e.POST("/refresh", auth.Refresh)
+	s.e.POST("/tg_webhook/:bot_id", s.tgHandler.TgWebhook)
+
 	g := s.e.Group("/restricted")
 	config := echojwt.Config{
 		SigningKey: []byte(config2.AppConfig.Auth.Secret),

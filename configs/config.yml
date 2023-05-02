@@ -2,9 +2,5 @@ auth_credentials:
   username: ''
   password: ''
   jwt_secret: ''
-postgres_config:
-  username: ''
-  password: ''
-  db: ""
-  port: 5432
-  host: ""
+base_url: ""
+local: "ssh -R 80:localhost:1323 serveo.net"

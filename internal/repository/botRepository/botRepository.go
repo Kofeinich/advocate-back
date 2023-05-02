@@ -1,19 +1,10 @@
 package botRepository
 
 import (
+	"advocate-back/internal/repository"
 	"context"
 	"github.com/go-redis/redis/v8"
 )
-
-func botConfigKey(id string) string {
-	return "botConfig_" + id
-}
-
-func botTokenKey(id string) string {
-	return "botToken_" + id
-}
-
-const allBotsKey = "allBots"
 
 type repo struct {
 	rdb *redis.Client
@@ -24,7 +15,7 @@ func NewRepo(r *redis.Client) *repo {
 }
 
 func (r repo) AddBotToBotsList(botID string) error {
-	err := r.rdb.SAdd(context.Background(), allBotsKey, botID).Err()
+	err := r.rdb.SAdd(context.Background(), repository.AllBotsKey, botID).Err()
 	if err != nil {
 		return err
 	}
@@ -32,7 +23,7 @@ func (r repo) AddBotToBotsList(botID string) error {
 }
 
 func (r repo) DeleteBotFromList(botID string) error {
-	err := r.rdb.SRem(context.Background(), allBotsKey, botID).Err()
+	err := r.rdb.SRem(context.Background(), repository.AllBotsKey, botID).Err()
 	if err != nil {
 		return err
 	}
@@ -40,7 +31,7 @@ func (r repo) DeleteBotFromList(botID string) error {
 }
 
 func (r repo) GelAllBotsFromList() ([]string, error) {
-	bots, err := r.rdb.SMembers(context.Background(), allBotsKey).Result()
+	bots, err := r.rdb.SMembers(context.Background(), repository.AllBotsKey).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +39,7 @@ func (r repo) GelAllBotsFromList() ([]string, error) {
 }
 
 func (r repo) CreateBotConfig(botID string, config []byte) error {
-	err := r.rdb.Set(context.Background(), botConfigKey(botID), config, 0).Err()
+	err := r.rdb.Set(context.Background(), repository.BotConfigKey(botID), config, 0).Err()
 	if err != nil {
 		return err
 	}
@@ -56,7 +47,7 @@ func (r repo) CreateBotConfig(botID string, config []byte) error {
 }
 
 func (r repo) GetBotConfigByID(botID string) (string, error) {
-	conf, err := r.rdb.Get(context.Background(), botConfigKey(botID)).Result()
+	conf, err := r.rdb.Get(context.Background(), repository.BotConfigKey(botID)).Result()
 	if err != nil {
 		return "", err
 	}
@@ -64,7 +55,7 @@ func (r repo) GetBotConfigByID(botID string) (string, error) {
 }
 
 func (r repo) CreateBotToken(botID string, token string) error {
-	err := r.rdb.Set(context.Background(), botTokenKey(botID), token, 0).Err()
+	err := r.rdb.Set(context.Background(), repository.BotTokenKey(botID), token, 0).Err()
 	if err != nil {
 		return err
 	}
@@ -72,7 +63,7 @@ func (r repo) CreateBotToken(botID string, token string) error {
 }
 
 func (r repo) GetBotTokenByID(botID string) (string, error) {
-	conf, err := r.rdb.Get(context.Background(), botTokenKey(botID)).Result()
+	conf, err := r.rdb.Get(context.Background(), repository.BotTokenKey(botID)).Result()
 	if err != nil {
 		return "", err
 	}
