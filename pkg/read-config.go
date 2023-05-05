@@ -9,7 +9,7 @@ import (
 
 type Config struct {
 	Auth config.Auth `yaml:"auth_credentials"`
-	//Postgres Postgres `yaml:"postgres_config"`
+	Url  string      `yaml:"url"`
 }
 
 func ReadConfig() Config {

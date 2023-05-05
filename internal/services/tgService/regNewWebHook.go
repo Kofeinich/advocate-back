@@ -1,9 +1,12 @@
 package tgService
 
-import tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+import (
+	"advocate-back/pkg"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+)
 
-func RegNewBot(token string, botId string) (err error) {
-	webhookURL := "https://vorago.serveo.net/tg_webhook/" + botId
+func RegNewWebHook(token string, botId string) (err error) {
+	webhookURL := pkg.AppConfig.Url + botId
 	webhookConfig := tgbotapi.NewWebhook(webhookURL)
 	bot, err := tgbotapi.NewBotAPI(token)
 	if err != nil {

@@ -20,7 +20,6 @@ func Run() {
 	handler := bots.NewBotHandler(service)
 	handlerTg := telegram.NewTgHandler(serviceTg)
 	httpServer := http.NewServer(handler, handlerTg)
-	// todo register again all webhooks for all active bots use RegNewBot
 	list, err := repo.GelAllBotsFromList()
 	if err != nil {
 		return
@@ -30,7 +29,7 @@ func Run() {
 		if err != nil {
 			continue
 		}
-		err = tgService.RegNewBot(botToken, botID)
+		err = tgService.RegNewWebHook(botToken, botID)
 		if err != nil {
 			continue
 		}

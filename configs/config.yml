@@ -2,5 +2,4 @@ auth_credentials:
   username: ''
   password: ''
   jwt_secret: ''
-base_url: ""
-local: "ssh -R 80:localhost:1323 serveo.net"
+url: "https://vorago.serveo.net/tg_webhook/"

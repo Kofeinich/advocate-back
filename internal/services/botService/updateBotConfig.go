@@ -19,7 +19,7 @@ func (s Service) UpdateBotConfig(conf states.BotStates, id string) error {
 
 	botToken, err := s.r.GetBotTokenByID(id)
 
-	err = tgService.RegNewBot(botToken, id)
+	err = tgService.RegNewWebHook(botToken, id)
 	if err != nil {
 		return err
 	}

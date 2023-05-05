@@ -31,7 +31,7 @@ func (s Service) AddBot(conf states.BotStates, token string) error {
 		return err
 	}
 
-	err = tgService.RegNewBot(token, botId.String())
+	err = tgService.RegNewWebHook(token, botId.String())
 	if err != nil {
 		return err
 	}

@@ -1,7 +1,7 @@
 package tgService
 
 import (
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"advocate-back/internal/delivery/http/validator"
 )
 
 type Types string
@@ -11,11 +11,11 @@ const (
 	CallbackQueryType      Types = "callback_query"
 	InlineQueryType        Types = "inline_query"
 	ChosenInlineResultType Types = "chosen_inline_result"
-	FirstUpdate            Types = "first_update"
+	UnknownType            Types = "unknown"
 )
 
-func CheckUpdateType(update tgbotapi.Update) Types {
-	if update.Message != nil {
+func CheckUpdateType(update validator.TgValidatorRequest) Types {
+	if update.Message != nil && update.Message.Text != "" {
 		return MessageType
 	} else if update.CallbackQuery != nil {
 		return CallbackQueryType
@@ -24,8 +24,6 @@ func CheckUpdateType(update tgbotapi.Update) Types {
 	} else if update.ChosenInlineResult != nil {
 		return ChosenInlineResultType
 	}
-	if update.Message == nil || update.Message.Text == "" {
-		return FirstUpdate
-	}
-	return ""
+
+	return UnknownType
 }

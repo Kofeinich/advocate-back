@@ -1,8 +1,8 @@
 package telegram
 
 import (
+	"advocate-back/internal/delivery/http/validator"
 	"advocate-back/internal/services/tgService"
-	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
 type TgHandler struct {
@@ -10,7 +10,7 @@ type TgHandler struct {
 }
 
 type service interface {
-	ProcessTgUpdate(botId string, update tgbotapi.Update) (blockId string, err error)
+	ProcessTgUpdate(botId string, update validator.TgValidatorRequest) (sendRequest tgService.SendMessageRequest, err error)
 }
 
 func NewTgHandler(s *tgService.Service) *TgHandler {
