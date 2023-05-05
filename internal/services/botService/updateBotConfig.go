@@ -1,6 +1,7 @@
 package botService
 
 import (
+	"advocate-back/internal/services/tgService"
 	"advocate-back/internal/states"
 	"encoding/json"
 )
@@ -12,6 +13,13 @@ func (s Service) UpdateBotConfig(conf states.BotStates, id string) error {
 	}
 
 	err = s.r.CreateBotConfig(id, marshalledJSON)
+	if err != nil {
+		return err
+	}
+
+	botToken, err := s.r.GetBotTokenByID(id)
+
+	err = tgService.RegNewBot(botToken, id)
 	if err != nil {
 		return err
 	}

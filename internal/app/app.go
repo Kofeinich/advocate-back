@@ -21,7 +21,22 @@ func Run() {
 	handlerTg := telegram.NewTgHandler(serviceTg)
 	httpServer := http.NewServer(handler, handlerTg)
 	// todo register again all webhooks for all active bots use RegNewBot
-	err := httpServer.Connect()
+	list, err := repo.GelAllBotsFromList()
+	if err != nil {
+		return
+	}
+	for _, botID := range list {
+		botToken, err := repo.GetBotTokenByID(botID)
+		if err != nil {
+			continue
+		}
+		err = tgService.RegNewBot(botToken, botID)
+		if err != nil {
+			continue
+		}
+	}
+
+	err = httpServer.Connect()
 	if err != nil {
 		return
 	}

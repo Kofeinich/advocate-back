@@ -3,6 +3,7 @@ package validator
 import (
 	"advocate-back/internal/states"
 	"github.com/go-playground/validator"
+	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -40,6 +41,28 @@ type (
 	UpdateBotConfigRequest struct {
 		BotConfig states.BotStates `json:"bot_config" validate:"required" `
 		BotID     string           `json:"bot_id" validate:"required" `
+	}
+
+	TgValidatorRequest struct {
+		Update             tgbotapi.Update
+		Bot                *tgbotapi.BotAPI
+		Error              tgbotapi.Error
+		Logger             tgbotapi.BotLogger
+		CallbackQuery      *tgbotapi.CallbackQuery
+		PersonalDetails    *tgbotapi.PersonalDetails
+		BaseChat           tgbotapi.BaseChat
+		Message            *tgbotapi.Message
+		EditedMessage      *tgbotapi.Message
+		ChannelPost        *tgbotapi.Message
+		EditedChannelPost  *tgbotapi.Message
+		InlineQuery        *tgbotapi.InlineQuery
+		ChosenInlineResult *tgbotapi.ChosenInlineResult
+		CallbackGame       *tgbotapi.CallbackGame
+		ShippingQuery      *tgbotapi.ShippingQuery
+		PreCheckoutQuery   *tgbotapi.PreCheckoutQuery
+		APIResponse        tgbotapi.APIResponse
+		Contact            *tgbotapi.Contact
+		Credentials        *tgbotapi.Credentials
 	}
 
 	CustomValidator struct {

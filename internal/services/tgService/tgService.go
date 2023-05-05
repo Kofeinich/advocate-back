@@ -33,22 +33,32 @@ func (s Service) ProcessTgUpdate(botId string, update tgbotapi.Update) (blockId 
 	if err != nil {
 		return "", err
 	}
-	// todo Message is possibly nil, check the type of event before getUserState
-	blockId, err = s.r.GetUserState(botId, strconv.Itoa(update.Message.From.ID))
-	if err == redis.Nil {
-		err = nil
-		blockId = bot.InitialState
+	updateType := CheckUpdateType(update)
+
+	if updateType == FirstUpdate {
+
 	}
-	if err != nil {
-		return "", err
+
+	if updateType == MessageType {
+		blockId, err = s.r.GetUserState(botId, strconv.Itoa(update.Message.From.ID))
+		if err == redis.Nil {
+			err = nil
+			blockId = bot.InitialState
+		}
+		if err != nil {
+			return "", err
+		}
 	}
-	// todo switch analyze the update event check struct and change state
 
-	// todo for buttons data use cur block.Name + _ + arrayIndexOfAction
+	/// todo Message is possibly nil, check the type of event before getUserState
 
-	// todo prepare message config (MessageConfig) from newState
+	/// todo switch analyze the update event check struct and change state
 
-	// todo when create messageConfig выставить ChatId, Text, ReplayMarkup
+	/// todo for buttons data use cur block.Name + _ + arrayIndexOfAction
+
+	/// todo prepare message config (MessageConfig) from newState
+
+	/// todo when create messageConfig выставить ChatId, Text, ReplayMarkup
 
 	// https://github.com/go-telegram-bot-api/telegram-bot-api/blob/master/docs/examples/inline-keyboard.md
 
