@@ -16,5 +16,6 @@ func RegNewWebHook(token string, botId string) (err error) {
 	if err != nil {
 		return err
 	}
+	bot.ListenForWebhook(webhookURL)
 	return nil
 }

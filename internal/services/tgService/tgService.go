@@ -2,6 +2,7 @@ package tgService
 
 import (
 	"advocate-back/internal/delivery/http/validator"
+	"advocate-back/internal/services/tgService/ui"
 	"advocate-back/internal/states"
 	"encoding/json"
 	"github.com/go-redis/redis/v8"
@@ -40,7 +41,10 @@ func (s Service) ProcessTgUpdate(botId string, update validator.TgValidatorReque
 		return SendMessageRequest{}, err
 	}
 
-	updateType := CheckUpdateType(update)
+	updateType, err := CheckUpdateType(update)
+	if err != nil {
+		return SendMessageRequest{}, err
+	}
 
 	if updateType == MessageType {
 		blockId, err := s.r.GetUserState(botId, strconv.Itoa(update.Message.From.ID))
@@ -48,23 +52,31 @@ func (s Service) ProcessTgUpdate(botId string, update validator.TgValidatorReque
 			err = nil
 			blockId = bot.InitialState
 			s.r.SetUserState(botId, strconv.Itoa(update.Message.From.ID), blockId)
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hello, World!")
-			return SendMessageRequest{update, botId, botToken, msg}, err
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, bot.States[blockId].Text)
+			msg.ReplyMarkup = ui.CreateTelegramKeyboard(blockId, bot)
+			return SendMessageRequest{update, botId, botToken, msg, false}, err
 		}
-		msg := tgbotapi.NewMessage(update.Message.Chat.ID, "Hello, World!")
-		return SendMessageRequest{update, botId, botToken, msg}, err
-
-		// TODO: Analyze the update event and change state accordingly.
-
-		// TODO: For button data, use the current block.Name + _ + the index of the action.
-
-		// TODO: Prepare message config (MessageConfig) from newState.
-
-		// TODO: When creating MessageConfig, set ChatID, Text, and ReplyMarkup.
-
-		// See: https://github.com/go-telegram-bot-api/telegram-bot-api/blob/master/docs/examples/inline-keyboard.md.
-
+		newBlockId, err := ui.GetNewStateByActionText(blockId, bot)
+		s.r.SetUserState(botId, strconv.Itoa(update.Message.From.ID), newBlockId)
+		msg := tgbotapi.NewMessage(update.Message.Chat.ID, bot.States[newBlockId].Text)
+		msg.ReplyMarkup = ui.CreateTelegramKeyboard(newBlockId, bot)
+		return SendMessageRequest{update, botId, botToken, msg, false}, err
 	}
 
+	if updateType == CallbackQueryType {
+		blockId, err := s.r.GetUserState(botId, strconv.Itoa(update.CallbackQuery.From.ID))
+		if err != nil {
+			return SendMessageRequest{}, nil
+		}
+		id, err := strconv.Atoi(update.CallbackQuery.Data)
+		if err != nil {
+			return SendMessageRequest{}, nil
+		}
+		newBlockId := ui.GetNewStateByActionID(blockId, id, bot)
+		s.r.SetUserState(botId, strconv.Itoa(update.CallbackQuery.From.ID), newBlockId)
+		msg := tgbotapi.NewMessage(update.CallbackQuery.Message.Chat.ID, bot.States[newBlockId].Text)
+		msg.ReplyMarkup = ui.CreateTelegramKeyboard(newBlockId, bot)
+		return SendMessageRequest{update, botId, botToken, msg, false}, err
+	}
 	return SendMessageRequest{}, nil
 }

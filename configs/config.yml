@@ -2,4 +2,4 @@ auth_credentials:
   username: ''
   password: ''
   jwt_secret: ''
-url: "https://vorago.serveo.net/tg_webhook/"
+url: "https://exustio.serveo.net/tg_webhook/"

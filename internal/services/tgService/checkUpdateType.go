@@ -2,28 +2,23 @@ package tgService
 
 import (
 	"advocate-back/internal/delivery/http/validator"
+	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 type Types string
 
 const (
-	MessageType            Types = "message"
-	CallbackQueryType      Types = "callback_query"
-	InlineQueryType        Types = "inline_query"
-	ChosenInlineResultType Types = "chosen_inline_result"
-	UnknownType            Types = "unknown"
+	MessageType       Types = "message"
+	CallbackQueryType Types = "callback_query"
 )
 
-func CheckUpdateType(update validator.TgValidatorRequest) Types {
-	if update.Message != nil && update.Message.Text != "" {
-		return MessageType
-	} else if update.CallbackQuery != nil {
-		return CallbackQueryType
-	} else if update.InlineQuery != nil {
-		return InlineQueryType
-	} else if update.ChosenInlineResult != nil {
-		return ChosenInlineResultType
+func CheckUpdateType(update validator.TgValidatorRequest) (Types, error) {
+	if update.Message != nil {
+		return MessageType, nil
 	}
-
-	return UnknownType
+	if update.CallbackQuery != nil {
+		return CallbackQueryType, nil
+	}
+	return "", echo.NewHTTPError(http.StatusBadRequest, "invalid request")
 }

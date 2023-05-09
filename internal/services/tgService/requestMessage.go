@@ -10,4 +10,5 @@ type SendMessageRequest struct {
 	BotID    string
 	BotToken string
 	Msg      tgbotapi.MessageConfig
+	Alert    bool
 }

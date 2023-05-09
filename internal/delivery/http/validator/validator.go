@@ -44,25 +44,9 @@ type (
 	}
 
 	TgValidatorRequest struct {
-		Update             tgbotapi.Update
-		Bot                *tgbotapi.BotAPI
-		Error              tgbotapi.Error
-		Logger             tgbotapi.BotLogger
-		CallbackQuery      *tgbotapi.CallbackQuery
-		PersonalDetails    *tgbotapi.PersonalDetails
-		BaseChat           tgbotapi.BaseChat
-		Message            *tgbotapi.Message
-		EditedMessage      *tgbotapi.Message
-		ChannelPost        *tgbotapi.Message
-		EditedChannelPost  *tgbotapi.Message
-		InlineQuery        *tgbotapi.InlineQuery
-		ChosenInlineResult *tgbotapi.ChosenInlineResult
-		CallbackGame       *tgbotapi.CallbackGame
-		ShippingQuery      *tgbotapi.ShippingQuery
-		PreCheckoutQuery   *tgbotapi.PreCheckoutQuery
-		APIResponse        tgbotapi.APIResponse
-		Contact            *tgbotapi.Contact
-		Credentials        *tgbotapi.Credentials
+		UpdateID      int64                   `json:"update_id"`
+		Message       *tgbotapi.Message       `json:"message,omitempty"`
+		CallbackQuery *tgbotapi.CallbackQuery `json:"callback_query,omitempty"`
 	}
 
 	CustomValidator struct {
