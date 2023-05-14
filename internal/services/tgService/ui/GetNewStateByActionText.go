@@ -12,5 +12,5 @@ func GetNewStateByActionText(curStateName string, config states.BotStates) (stri
 			return action.NextBlock, nil
 		}
 	}
-	return "", echo.NewHTTPError(http.StatusBadRequest)
+	return curStateName, echo.NewHTTPError(http.StatusBadRequest)
 }
