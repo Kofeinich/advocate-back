@@ -16,10 +16,18 @@ func (tg TgHandler) TgWebhook(c echo.Context) (err error) {
 	botID := c.Param("bot_id")
 
 	sendRequest, err := tg.s.ProcessTgUpdate(botID, m)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
 
 	bot, err := tgbotapi.NewBotAPI(sendRequest.BotToken)
-
-	bot.Send(sendRequest.Msg)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
+	_, err = bot.Send(sendRequest.Msg)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+	}
 
 	return c.JSON(http.StatusOK, sendRequest.Msg)
 }

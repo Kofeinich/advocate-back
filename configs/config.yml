@@ -2,4 +2,4 @@ auth_credentials:
   username: ''
   password: ''
   jwt_secret: ''
-url: "https://posco.serveo.net/tg_webhook/"
+url: "https://miser.serveo.net/tg_webhook/"
