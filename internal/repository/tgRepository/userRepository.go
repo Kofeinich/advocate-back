@@ -1,7 +1,7 @@
 package tgRepository
 
 import (
-	"advocate-back/internal/repository"
+	"bot_forge_back/internal/repository"
 	"context"
 	"github.com/go-redis/redis/v8"
 )

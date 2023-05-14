@@ -1,7 +1,7 @@
 package telegram
 
 import (
-	validate "advocate-back/internal/delivery/http/validator"
+	validate "bot_forge_back/internal/delivery/http/validator"
 	"encoding/json"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/labstack/echo/v4"

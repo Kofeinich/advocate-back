@@ -1,7 +1,7 @@
 package tgService
 
 import (
-	"advocate-back/internal/delivery/http/validator"
+	"bot_forge_back/internal/delivery/http/validator"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 

@@ -1,9 +1,9 @@
 package http
 
 import (
-	"advocate-back/internal/delivery/http/auth"
-	validate "advocate-back/internal/delivery/http/validator"
-	config2 "advocate-back/pkg"
+	"bot_forge_back/internal/delivery/http/auth"
+	validate "bot_forge_back/internal/delivery/http/validator"
+	config2 "bot_forge_back/pkg"
 	"github.com/go-playground/validator"
 	"github.com/go-redis/redis/v8"
 	echojwt "github.com/labstack/echo-jwt/v4"

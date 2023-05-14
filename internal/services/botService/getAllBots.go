@@ -1,7 +1,7 @@
 package botService
 
 import (
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/states"
 	"encoding/json"
 )
 

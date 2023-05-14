@@ -1,8 +1,8 @@
 package bots
 
 import (
-	"advocate-back/internal/services/botService"
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/services/botService"
+	"bot_forge_back/internal/states"
 )
 
 type BotHandler struct {

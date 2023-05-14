@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/states"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"strconv"
 )

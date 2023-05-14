@@ -1,9 +1,9 @@
 package tgService
 
 import (
-	"advocate-back/internal/delivery/http/validator"
-	"advocate-back/internal/services/tgService/ui"
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/delivery/http/validator"
+	"bot_forge_back/internal/services/tgService/ui"
+	"bot_forge_back/internal/states"
 	"encoding/json"
 	"github.com/go-redis/redis/v8"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"

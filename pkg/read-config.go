@@ -1,7 +1,7 @@
 package pkg
 
 import (
-	"advocate-back/pkg/config"
+	"bot_forge_back/pkg/config"
 	"gopkg.in/yaml.v3"
 	"log"
 	"os"

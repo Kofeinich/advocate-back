@@ -1,9 +1,9 @@
 package bots
 
 import (
-	"advocate-back/internal/algorithm"
-	validate "advocate-back/internal/delivery/http/validator"
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/algorithm"
+	validate "bot_forge_back/internal/delivery/http/validator"
+	"bot_forge_back/internal/states"
 	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"net/http"

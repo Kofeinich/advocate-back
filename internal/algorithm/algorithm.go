@@ -1,8 +1,8 @@
 package algorithm
 
 import (
-	"advocate-back/internal/algorithm/dfs"
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/algorithm/dfs"
+	"bot_forge_back/internal/states"
 	"fmt"
 	_ "fmt"
 	_ "unicode/utf8"

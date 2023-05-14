@@ -1,6 +1,6 @@
 package main
 
-import "advocate-back/internal/app"
+import "bot_forge_back/internal/app"
 
 func main() {
 	app.Run()

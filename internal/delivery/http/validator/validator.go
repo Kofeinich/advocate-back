@@ -1,7 +1,7 @@
 package validator
 
 import (
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/states"
 	"github.com/go-playground/validator"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/labstack/echo/v4"

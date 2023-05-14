@@ -1,8 +1,8 @@
 package algorithm
 
 import (
-	"advocate-back/internal/bot"
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/bot"
+	"bot_forge_back/internal/states"
 	"testing"
 )
 

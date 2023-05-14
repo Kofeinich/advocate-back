@@ -1,7 +1,7 @@
 package dfs
 
 import (
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/states"
 	"fmt"
 )
 

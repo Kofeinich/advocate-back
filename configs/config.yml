@@ -2,4 +2,4 @@ auth_credentials:
   username: ''
   password: ''
   jwt_secret: ''
-url: "https://exustio.serveo.net/tg_webhook/"
+url: "https://exposui.serveo.net/tg_webhook/"

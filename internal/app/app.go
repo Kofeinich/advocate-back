@@ -1,14 +1,14 @@
 package app
 
 import (
-	"advocate-back/internal/delivery/http"
-	"advocate-back/internal/delivery/http/bots"
-	"advocate-back/internal/delivery/http/telegram"
-	"advocate-back/internal/repository/botRepository"
-	"advocate-back/internal/repository/tgRepository"
-	"advocate-back/internal/services/botService"
-	"advocate-back/internal/services/tgService"
-	"advocate-back/pkg/rdb"
+	"bot_forge_back/internal/delivery/http"
+	"bot_forge_back/internal/delivery/http/bots"
+	"bot_forge_back/internal/delivery/http/telegram"
+	"bot_forge_back/internal/repository/botRepository"
+	"bot_forge_back/internal/repository/tgRepository"
+	"bot_forge_back/internal/services/botService"
+	"bot_forge_back/internal/services/tgService"
+	"bot_forge_back/pkg/rdb"
 )
 
 func Run() {

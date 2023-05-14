@@ -1,8 +1,8 @@
 package botService
 
 import (
-	"advocate-back/internal/services/tgService"
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/services/tgService"
+	"bot_forge_back/internal/states"
 	"encoding/json"
 	"github.com/google/uuid"
 )

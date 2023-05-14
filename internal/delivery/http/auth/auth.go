@@ -1,8 +1,8 @@
 package auth
 
 import (
-	validate "advocate-back/internal/delivery/http/validator"
-	"advocate-back/pkg"
+	validate "bot_forge_back/internal/delivery/http/validator"
+	"bot_forge_back/pkg"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
 	"net/http"

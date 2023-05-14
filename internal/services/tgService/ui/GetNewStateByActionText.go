@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"advocate-back/internal/states"
+	"bot_forge_back/internal/states"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )

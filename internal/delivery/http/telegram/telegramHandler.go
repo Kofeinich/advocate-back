@@ -1,8 +1,8 @@
 package telegram
 
 import (
-	"advocate-back/internal/delivery/http/validator"
-	"advocate-back/internal/services/tgService"
+	"bot_forge_back/internal/delivery/http/validator"
+	"bot_forge_back/internal/services/tgService"
 )
 
 type TgHandler struct {
